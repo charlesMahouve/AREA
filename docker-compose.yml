@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  client:
+    build:
+      context: ./client/
+    command: npm run dev
+    volumes:
+      - ./client/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+  server:
+    depends_on:
+      - db
+    build:
+      context: ./server/
+    command: /usr/src/app/node_modules/.bin/nodemon server.js
+    volumes:
+      - ./server/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - HOST=db
+      - USER=postgres
+      - PASSWORD=123
+      - DB=area_db
+    networks:
+      - nodeapp-network
+  db:
+    image: postgres:latest
+    ports:
+        - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=area_db
+    volumes:
+        - pgvolume:/var/lib/postgresql/data
+    networks:
+      - nodeapp-network
+
+volumes:
+  pgvolume:
+
+networks:
+  nodeapp-network:

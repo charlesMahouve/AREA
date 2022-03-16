@@ -1,0 +1,8 @@
+module.exports = {
+  reactStrictMode: true,
+  env: {
+    REACT_APP_GOOGLE_CLIENT_ID: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    REACT_APP_GOOGLE_SECRET_CODE: process.env.REACT_APP_GOOGLE_SECRET_CODE,
+    REACT_APP_GOOGLE_REDIRECT_URI: process.env.REACT_APP_GOOGLE_REDIRECT_URI
+  },
+}
